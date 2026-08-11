@@ -34,24 +34,8 @@
     font-size: 15.5px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    cursor: none;
   }
-  @media (max-width: 900px) { body { cursor: auto; } }
   a { color: inherit; text-decoration: none; }
-
-  /* Custom cursor (soft) */
-  .cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 10px; height: 10px;
-    pointer-events: none;
-    z-index: 9999;
-    border-radius: 50%;
-    background: var(--fg);
-    transition: width .22s ease, height .22s ease, opacity .22s ease, background .22s ease;
-  }
-  .cursor.hover { width: 36px; height: 36px; background: transparent; border: 1px solid var(--fg); }
-  @media (max-width: 900px) { .cursor { display: none; } }
 
   /* Grid */
   .page {
@@ -149,11 +133,9 @@
   .rail-meta .row .v { color: var(--fg); text-align: right; }
   .status-dot {
     display: inline-block; width: 6px; height: 6px; border-radius: 50%;
-    background: #7a8f5a; margin-right: 8px; vertical-align: middle;
-    box-shadow: 0 0 0 0 rgba(122,143,90,.55);
-    animation: pulse 2.6s ease-out infinite;
+    background: transparent; border: 1px solid var(--fg-faint);
+    margin-right: 8px; vertical-align: middle;
   }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(122,143,90,.5);} 100% { box-shadow: 0 0 0 8px rgba(122,143,90,0);} }
 
   /* Main */
   main.content { padding: 0; }
@@ -329,11 +311,10 @@
     gap: 32px;
     padding: 48px 0;
     border-top: 1px solid var(--line);
-    cursor: none;
+    cursor: pointer;
     position: relative;
     transition: padding-left .4s ease;
   }
-  @media (max-width: 900px) { .project { cursor: pointer; } }
   .project:first-child { border-top: none; padding-top: 0; }
   .project .p-arrow { transition: transform .25s ease, color .25s ease; }
   .project:hover .p-arrow { transform: translate(4px, -4px); color: var(--fg); }
@@ -666,8 +647,6 @@
 
 <body>
 
-<div class="cursor" id="cursor" aria-hidden="true"></div>
-
 <div class="page">
 
   <!-- SIDEBAR -->
@@ -693,7 +672,7 @@
     </nav>
 
     <div class="rail-meta">
-      <div class="row"><span class="k">Status</span><span class="v"><span class="status-dot"></span>Open to roles</span></div>
+      <div class="row"><span class="k">Status</span><span class="v"><span class="status-dot"></span>Employed — not seeking roles</span></div>
       <div class="row"><span class="k">Location</span><span class="v">Munich, DE</span></div>
     </div>
   </aside>
@@ -1075,7 +1054,7 @@
         <div></div>
         <div>
           <div class="contact-big">
-            Open to <em>internships and working-student roles</em> in ML, perception, and systems — <a id="contact-write-link" href="#">write to me</a>.
+            Currently employed and <em>not looking for new roles</em> — always happy to talk ML, perception, and systems, though. <a id="contact-write-link" href="#">Write to me</a>.
           </div>
 
           <div class="contact-grid">
@@ -1111,27 +1090,6 @@
   })();
 </script>
 <script>
-  // ----- Soft dot cursor -----
-  (function() {
-    const cursor = document.getElementById('cursor');
-    if (!cursor || window.matchMedia('(max-width: 900px)').matches) return;
-    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
-    let cx = tx, cy = ty;
-    document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; });
-    function tick() {
-      cx += (tx - cx) * 0.26;
-      cy += (ty - cy) * 0.26;
-      const w = cursor.offsetWidth;
-      cursor.style.transform = `translate(${cx - w/2}px, ${cy - w/2}px)`;
-      requestAnimationFrame(tick);
-    }
-    tick();
-    document.querySelectorAll('a, .project, .hobby, .lang-item').forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  })();
-
   // ----- Active section in rail nav -----
   (function() {
     const links = document.querySelectorAll('#rail-nav a');
